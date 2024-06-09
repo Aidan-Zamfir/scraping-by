@@ -1,6 +1,7 @@
 package scraper
 
 import (
+	"fmt"
 	"github.com/gocolly/colly"
 )
 
@@ -18,5 +19,11 @@ type Rental struct {
 
 func ScrapeData() {
 	c := colly.NewCollector()
+
+	c.OnHTML("div[class=property]", func(e *colly.HTMLElement) {
+		fmt.Println(e.Text)
+
+	})
+	c.Visit("https://www.indomio.al/en/to-rent/property/tirana-city")
 
 }
