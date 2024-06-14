@@ -1,8 +1,8 @@
 package scraper
 
 import (
-	"fmt"
 	"github.com/gocolly/colly"
+	"log"
 )
 
 type Rental struct {
@@ -17,13 +17,31 @@ type Rental struct {
 	Link         string `json:"link"`
 }
 
+//for i in site list -> go routine for each site scraping data
+
 func ScrapeData() {
+	log.Println("scraping...")
+
+	scrapeURL := "https://www.idealista.com/en/alquiler-viviendas/malaga-malaga/"
+
 	c := colly.NewCollector()
 
-	c.OnHTML("div[class=property]", func(e *colly.HTMLElement) {
-		fmt.Println(e.Text)
+	c.OnHTML("div.item-info-container ", func(e *colly.HTMLElement) {
 
+		log.Println(e.ChildText("a.title"))
+		//apartment := Rental{
+		//	Neighborhood:
+		//	Price: e.ChildText("div.property-card-bottom-price"),
+		//	PriceSQM:
+		//	Kitchens:
+		//	LivingR:
+		//	Bathrooms:
+		//	LastUpdated:
+		//	PropertyCode:
+		//	Link:
+		//}
 	})
-	c.Visit("https://www.indomio.al/en/to-rent/property/tirana-city")
+
+	c.Visit(scrapeURL)
 
 }
